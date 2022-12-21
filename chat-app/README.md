@@ -1,3 +1,14 @@
+# chat-app service
+This service is the frontend of this project. <br/>
+This app based on the `next.js` framework. <br/>
+
+The app will have those pages:
+`/about` - SSG (compiled on build time)
+`/home` - SSR (compiled in each request)
+`/profile/[id]` - ISR (compiled on request in specific interval)
+
+---
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
