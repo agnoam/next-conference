@@ -11,4 +11,4 @@ The `chat-service` - Is connected to `real-time firebase` databse. <br/>
 The `profile-service` - Is connected to `firestore`. <br/>
 
 The architecture of the project is like this:
-![Architecture](docs/assets/architecture.png)
+![Architecture](.docs_assets/architecture.png)
