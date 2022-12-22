@@ -1,0 +1,1 @@
+Put in this folder all the "shared" componenets that you want to share between the services 
