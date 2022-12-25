@@ -1,11 +1,11 @@
 import { inject, injectable } from "inversify";
-import { Agent } from 'elastic-apm-node';
+import winston from 'winston';
 import md5 from 'md5';
 
 import { TYPES } from "../../configs/di.types.config";
-import { APMDriver } from '../../drivers/apm.driver';
 import { DbDriver } from "../../drivers/db.driver";
-import { InputUserData, IUser, UserModel } from "./user.model";
+import { InputUserData } from "./user.model";
+import { LoggerDriver } from "../../drivers/logger.driver";
 
 /* 
     Description: 
@@ -13,22 +13,27 @@ import { InputUserData, IUser, UserModel } from "./user.model";
 */
 @injectable()
 export class UserDataLayer {
-    constructor(/*@inject(TYPES.DbDriver) db: DbDriver*/) {}
+    logger: winston.Logger;
+    constructor(
+        @inject(TYPES.LoggerDriver) LoggerDriver: LoggerDriver, 
+        @inject(TYPES.DbDriver) db: DbDriver
+    ) {
+        this.logger = LoggerDriver.Logger;
+    }
     
-    @APMDriver.traceMethod({ spanName: 'Writing user to DB' })
-    async createNewUser(userData: InputUserData): Promise<IUser> {
+    async createNewUser(userData: InputUserData): Promise<any> {
         // Hashing password before saving it to the DB
         userData.password = md5(userData.password);
-        return await UserModel.create(userData);
+        this.logger.info('new user data', userData);
+        // return await UserModel.create(userData);
+        return {};
     }
 
-    @APMDriver.traceMethod({ spanName: 'Delete user from DB' })
     deleteUser(username: string): void {
-        UserModel.remove({ username });
+        this.logger.info('deleteing', username);
     }
 
-    @APMDriver.traceMethod({ spanName: 'Is creds verified' })
-    async isLegit(username: string, password: string): Promise<IUser> {
+    async isLegit(username: string, password: string): Promise<any> {
         try {
             // const userQuery: DocumentQuery<IUser, IUser> = UserModel.findOne({ username: username });
             // const userData: IUser = await userQuery.exec();

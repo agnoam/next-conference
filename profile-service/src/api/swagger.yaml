@@ -1,8 +1,8 @@
 openapi: "3.0.0"
 info:
-  description: "Extreamly minimal node js server (Express, TypeScript, Jest, DB, Swagger)"
-  version: "3.0.0" 
-  title: "mini-node-ts"
+  description: "Profiler service, responsible for showing metrics of the chats in the application"
+  version: "0.0.1" 
+  title: "profile-service"
 
 servers: 
   - url: "http://localhost:8810"

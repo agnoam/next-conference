@@ -1,12 +1,8 @@
-import apm from 'elastic-apm-node';
-import { inject, injectable } from 'inversify';
+import { injectable } from 'inversify';
 import winston, { Logform } from 'winston';
 import { ElasticsearchTransport } from 'winston-elasticsearch';
 
 import packageJSON from '../../package.json';
-import { APMDriver } from './apm.driver';
-import { TYPES } from '../configs/di.types.config';
-// import { ElasticSerachConfig } from './elasticsearch.config';
 
 console.log('import logger.config');
 
@@ -49,6 +45,7 @@ export class LoggerDriver {
                 transports: [
                     // process.env.NODE_ENV !== 'production' ?
                         new winston.transports.Console({
+                            
                             format: winston.format.combine(
                                 winston.format.timestamp(),
                                 winston.format.metadata({ 

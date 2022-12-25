@@ -1,4 +1,4 @@
-import { container } from './di.driver';
+import { container } from './di.config';
 import { TYPES } from "./di.types.config";
 
 import { DefaultPresentationLayer } from '../components/default.presentation';

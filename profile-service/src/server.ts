@@ -4,20 +4,17 @@ import http, { Server } from "http";
 import express, { Application } from "express";
 import os from "os";
 import winston from "winston";
-import socketIO from "socket.io";
-import { Span, Agent } from 'elastic-apm-node';
 import { inject, injectable } from "inversify";
 
-import { container } from "./configs/di.driver";
-import { EtcdDriver } from "./drivers/etcd.driver";
+import { container } from "./configs/di.config";
 import { LoggerDriver } from "./drivers/logger.driver";
-import { APMDriver } from './drivers/apm.driver';
 import { TYPES } from "./configs/di.types.config";
 import { ServerMiddleware } from "./middlewares/server.middleware";
 import { SwaggerConfig } from "./configs/swagger.config";
 import { ProbeServer } from "./drivers/probe.driver";
 import MorganMiddleware from './middlewares/morgan.middleware';
 import ErrorMiddleware from "./middlewares/error.middleware";
+import { DbDriver } from './drivers/db.driver';
 
 import dotenv from 'dotenv';
 dotenv.config();
@@ -27,28 +24,17 @@ export class ServerBoot {
 	private port: number = +process.env.PORT || 8810;
 	app: Application = express(); // Exported for testings
 	server: Server = this.createServer();
-	
-	// TODO: Remove this if you does not want socket.io in your project
-	io: SocketIO.Server = this.getSocket(this.server);
-
 	private Logger: winston.Logger;
-	private apm: Agent;
 
 	constructor(
 		@inject(TYPES.LoggerDriver) private LoggerDriver: LoggerDriver, 
-		@inject(TYPES.ETCDDriver) private ETCDConfig: EtcdDriver,
+		@inject(TYPES.DbDriver) private DbDriver: DbDriver,
 		@inject(TYPES.ProbeServerDriver) private ProbeServer: ProbeServer,
 		@inject(TYPES.MorganMiddleware) private MorganMiddleware: MorganMiddleware
 	) {}
 
 	private createServer(): Server {
 		return http.createServer(this.app);
-	}
-
-	/* TODO: If you don't need socket.io in your project delete this, 
-		and don't forget to remove the `socket.io`, `@types/socket.io` dependencies */
-	private getSocket(server: Server): socketIO.Server {
-		return socketIO.listen(server);
 	}
 
 	async listen(): Promise<Application> {
@@ -74,9 +60,8 @@ export class ServerBoot {
 		// 		ELASTICSEARCH_URI: 'http://localhost:9200'
 		// 	}
 		// });
-		
 		this.LoggerDriver.initialize();
-		APMDriver.initializeAPM();
+		// this.DbDriver.
 		
 		this.Logger = this.LoggerDriver.Logger;
 		this.Logger.info('Configurations initialized successfuly');
@@ -93,7 +78,6 @@ export class ServerBoot {
 		this.ProbeServer.initializeProbeServer(this.server);
 	}
 
-	@APMDriver.traceMethod({ spanName: 'Finding IP address' })
 	public findMyIP(): string {
 		// Get the server's local ip
 		const ifaces: NetworkInterface = os.networkInterfaces();
@@ -124,14 +108,10 @@ interface NetworkInterface {
 	[index: string]: os.NetworkInterfaceInfo[];
 }
 
-// if (process.env.NODE_ENV !== "test") {
-	// // Running the server
-	// ServerBoot().listen();
-// }
-
 const _loggerConfig = container.get<LoggerDriver>(TYPES.LoggerDriver);
-const _etcdConfig = container.get<EtcdDriver>(TYPES.ETCDDriver);
+const _dbDriver = container.get<DbDriver>(TYPES.DbDriver);
+// const _etcdConfig = container.get<EtcdDriver>(TYPES.ETCDDriver);
 const _probeServer = container.get<ProbeServer>(TYPES.ProbeServerDriver);
 const _morganMiddleware = container.get<MorganMiddleware>(TYPES.MorganMiddleware);
 
-new ServerBoot(_loggerConfig, _etcdConfig, _probeServer, _morganMiddleware).listen();
+new ServerBoot(_loggerConfig, /* _etcdConfig, */ _dbDriver, _probeServer, _morganMiddleware).listen();

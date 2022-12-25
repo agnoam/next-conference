@@ -4,7 +4,6 @@ import winston from 'winston';
 
 import { ResponseStatus } from "../../utils/consts";
 import { TYPES } from "../../configs/di.types.config";
-import { APMDriver } from "../../drivers/apm.driver";
 import { LoggerDriver } from "../../drivers/logger.driver";
 import { UserCtrl } from './user.controller';
 import { InputUserData } from "./user.model";
@@ -20,7 +19,6 @@ export class UserPresntationLayer {
         this.Logger = this.loggerDriver.Logger;
     }
 
-    @APMDriver.traceMethod({ transactionName: 'Test request handler' })
     test_R(req: Request, res: Response): Response {
         this.Logger.info('test_R() executed');
         this.userCtrl.someFunc();
@@ -31,7 +29,6 @@ export class UserPresntationLayer {
         });
     }
 
-    @APMDriver.traceMethod({ transactionName: 'Login request handler' })
     async login_R(req: Request, res: Response): Promise<void> {
         const reqBody: LoginRequestBody = req.body as LoginRequestBody;
         const verificatedUser = await this.userCtrl.verifyUser(reqBody);
@@ -49,7 +46,6 @@ export class UserPresntationLayer {
         res.status(statusCode).json(payload);
     }
 
-    @APMDriver.traceMethod({ transactionName: 'Sign up request handler' })
     async signUp_R(req: Request, res: Response): Promise<Response> {
         const userData: InputUserData = {
             username: req.body.username,
@@ -63,7 +59,6 @@ export class UserPresntationLayer {
         return res.status(ResponseStatus.InternalError).json({ description: 'Operation failed, please try again' });
     }
 
-    @APMDriver.traceMethod({ transactionName: 'User delete request handler' })
     async deleteUser_R(req: Request, res: Response): Promise<void> {
         const userData: LoginRequestBody = req.body;
         let statusCode: number;

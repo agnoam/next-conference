@@ -8,20 +8,17 @@ import { UserDataLayer } from '../components/user/user.datalayer';
 // import { IDefaultCtrl, DefaultCtrl } from '../components/default/default.controller';
 
 import { LoggerDriver } from '../drivers/logger.driver';
-import { APMDriver } from '../drivers/apm.driver';
-import { EtcdDriver } from "../drivers/etcd.driver";
 import MorganMiddleware from '../middlewares/morgan.middleware';
 import { ProbeServer } from "../drivers/probe.driver";
 import { DefaultPresentationLayer } from '../components/default.presentation';
 import { UserPresntationLayer } from "../components/user/user.presentation";
+import { DbDriver } from "../drivers/db.driver";
 
 export const container: Container = new Container();
 
-container.bind<EtcdDriver>(TYPES.ETCDDriver).to(EtcdDriver).inSingletonScope();
 container.bind<LoggerDriver>(TYPES.LoggerDriver).to(LoggerDriver).inSingletonScope();
-container.bind<APMDriver>(TYPES.APMDriver).to(APMDriver).inSingletonScope();
 container.bind<ProbeServer>(TYPES.ProbeServerDriver).to(ProbeServer).inSingletonScope();
-// container.bind<DbDriver>(TYPES.DBConfig).to(DbDriver).inSingletonScope();
+container.bind<DbDriver>(TYPES.DbDriver).to(DbDriver).inSingletonScope();
 
 container.bind<MorganMiddleware>(TYPES.MorganMiddleware).to(MorganMiddleware).inSingletonScope();
 
