@@ -21,11 +21,18 @@ paths:
       tags: 
         - profiler
 
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Profiler'
+
       responses:
-        201:
+        '201':
           description: "Profiler added successfully"
 
-        500:
+        '500':
           description: Internal server error
 
   /profiler/{profilerID}:
@@ -44,10 +51,14 @@ paths:
             type: string
 
       responses:
-        200:
+        '200':
           description: "Profiler info"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Profiler'
 
-        500:
+        '500':
           description: Internal server error
 
     put:
@@ -62,12 +73,19 @@ paths:
           required: true
           schema:
             type: string
+      
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Profiler'
 
       responses:
-        200:
+        '200':
           description: "Profiler data updated"
 
-        500:
+        '500':
           description: Internal server error
 
     delete:
@@ -84,10 +102,10 @@ paths:
           type: string
 
       responses:
-        200:
+        '200':
           description: "Profiler removed successfully"
 
-        500:
+        '500':
           description: Internal server error
 
   /health:
@@ -99,7 +117,21 @@ paths:
         "200":
           description: "Response OK"
 
-  
+components:
+  schemas:
+    Profiler:
+      type: object
+      required:
+        - channelID
+        - interval
+      properties:
+        channelID:
+          type: string
+          description: "Chat channel ID"
+        interval:
+          type: integer
+          description: "Update interval in milliseconds"
+        
         
 # securityDefinitions:
 #   petstore_auth:

@@ -31,8 +31,9 @@ export class DbDriver {
     async readDocument<T = any>(collection: CollectionsNames, id: string): Promise<T> {
         try {
             const _collection: firestore.CollectionReference = this.db.collection(collection);
-            const doc: firestore.DocumentData = _collection.doc(id);
-            return doc as T;
+            const docRef: firestore.DocumentReference = _collection.doc(id);
+            const doc: firestore.DocumentSnapshot = await docRef.get();
+            return doc.data() as T;
         } catch(ex) {
             this.logger?.error('readDocument() ex:', ex);
             throw ex;
