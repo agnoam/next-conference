@@ -16,6 +16,11 @@ export const SwaggerConfig = async (app: Application): Promise<void> => {
         const config: oasTools.Options = {
             oasFile: docPath,
             middleware: {
+                validator: {
+                    requestValidation: true,
+                    responseValidation: true,
+                    strict: true
+                },
                 router: {
                     controllers: path.resolve(__dirname)
                 }
