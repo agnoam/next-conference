@@ -28,4 +28,21 @@ export class DbDriver {
             this.logger.error('createNewDoc() ex:', ex);
         }
     }
+
+    // async readDocument<T>(collection: CollectionsNames, id: string): Promise<T> {
+        // const doc = await this.db..doc(id);
+    // }
+}
+
+interface Channel {
+    name: string;
+    description: string;
+    channelLogo: string; // URL | default
+}
+
+interface Message {
+    channelID: string;
+    nickname: string;
+    profileLogo: string; // URL | default
+    content: string;
 }

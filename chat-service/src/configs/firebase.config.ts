@@ -12,7 +12,7 @@ export const initialize = () => {
   });
   
   try {
-    const db =  admin.database(firebaseApp);
+    const db = admin.database(firebaseApp);
     return db;
   } catch (ex) {
     console.error('firebase initialization failed ex:', ex);
