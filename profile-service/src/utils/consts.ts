@@ -12,5 +12,6 @@ export enum ResponseStatus {
 }
 
 export enum CollectionsNames {
-    Users = 'users'
+    Profilers = 'profilers',
+    Metrics = 'metrics'
 }

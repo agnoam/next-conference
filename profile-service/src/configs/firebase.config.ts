@@ -1,4 +1,4 @@
-import { app } from 'firebase-admin';
+import { app, firestore } from 'firebase-admin';
 import * as admin from "firebase-admin";
 import { ServiceAccount } from 'firebase-admin';
 import * as serviceAccount from './firebase-adminsdk.json';
@@ -12,10 +12,10 @@ export const initialize = () => {
   });
   
   try {
-    const db =  admin.database(firebaseApp);
+    const db: firestore.Firestore = admin.firestore(firebaseApp);
     return db;
   } catch (ex) {
-    console.error('firebase initialization failed ex:', ex);
+    console.error('firestore initialization failed ex:', ex);
     return null;
   }
 
