@@ -7,83 +7,99 @@ info:
 servers: 
   - url: "http://localhost:8810"
 tags:
-  - name: "user"
-    description: "Operations about user"
+  - name: "profiler"
+    description: "Operations about the profilers"
+  - name: "metrics"
+    description: "Operations metrics"
 
 paths:
-  /:
+  /profiler:
+    x-router-controller: routes.config
+    post:
+      operationId: addProfiler
+      summary: "Creates new profiler"
+      tags: 
+        - profiler
+
+      responses:
+        201:
+          description: "Profiler added successfully"
+
+        500:
+          description: Internal server error
+
+  /profiler/{profilerID}:
     x-router-controller: routes.config
     get:
-      operationId: defaultRoute
+      operationId: getProfiler
+      summary: "Get profiler data"
+      tags: 
+        - profiler
+
+      parameters:
+        - in: path
+          name: profilerID
+          required: true
+          schema:
+            type: string
+
+      responses:
+        200:
+          description: "Profiler info"
+
+        500:
+          description: Internal server error
+
+    put:
+      operationId: updateProfiler
+      summary: "Update profiler data"
+      tags: 
+        - profiler
+
+      parameters:
+        - in: path
+          name: profilerID
+          required: true
+          schema:
+            type: string
+
+      responses:
+        200:
+          description: "Profiler data updated"
+
+        500:
+          description: Internal server error
+
+    delete:
+      operationId: removeProfiler
+      summary: "Remove profiler"
+      tags: 
+        - profiler
+
+      parameters:
+      - in: path
+        name: profilerID
+        required: true
+        schema:
+          type: string
+
+      responses:
+        200:
+          description: "Profiler removed successfully"
+
+        500:
+          description: Internal server error
+
+  /health:
+    x-router-controller: routes.config
+    get:
+      operationId: healthRoute
       summary: "Check server's avilablity"
       responses:
         "200":
           description: "Response OK"
 
-  /users/test:
-    x-router-controller: routes.config
-    get:
-      operationId: testRequest
-      summary: Test request for checking the user component, don't forget to change it or delete it
-      responses:
-        "200":
-          description: "Request ran successfuly"
-
-  # /users/login:
-  #   post:
-  #     tags:
-  #       - "user"
-  #     summary: "Logs user into the system"
-  #     operationId: "loginUser"
-  #     produces:
-  #       - "application/json"
-  #     parameters:
-  #       - in: "body"
-  #         name: "body"
-  #         description: User's username and password
-  #         required: true
-  #         schema:
-  #           $ref: "#/definitions/UserLoginObj"
-  #     responses:
-  #       "200":
-  #         description: "successful operation"
-  #         schema:
-  #           $ref: "#/definitions/LoginResponseObj"
-  #       "400":
-  #         description: "Invalid username/password supplied"
-  # /users/sign-up:
-  #   post:
-  #     tags:
-  #       - "user"
-  #     summary: "Signing up new user"
-  #     operationId: "signup-user"
-  #     produces:
-  #       - "application/json"
-  #     parameters:
-  #       - in: "body"
-  #         name: "body"
-  #         description: New user data
-  #         required: true
-  #         schema:
-  #           $ref: "#/definitions/User"
-  #     responses:
-  #       "200":
-  #         description: "User created successfuly"
-  #         schema:
-  #           $ref: "#/definitions/ApiResponse"
-  #       "500":
-  #         description: "There is a problem with creating the user"
-  # /users/return-something:
-  #   get:
-  #     tags:
-  #       - "user"
-  #     summary: "Do something"
-  #     produces:
-  #       - "application/json"
-  #     responses:
-  #       "200": 
-  #         schema:
-  #           $ref: "#definitions/ReturnObj"
+  
         
 # securityDefinitions:
 #   petstore_auth:
