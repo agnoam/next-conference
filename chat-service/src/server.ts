@@ -108,10 +108,12 @@ interface NetworkInterface {
 	[index: string]: os.NetworkInterfaceInfo[];
 }
 
-const _loggerConfig = container.get<LoggerDriver>(TYPES.LoggerDriver);
-const _dbDriver = container.get<DbDriver>(TYPES.DbDriver);
-// const _etcdConfig = container.get<EtcdDriver>(TYPES.ETCDDriver);
-const _probeServer = container.get<ProbeServer>(TYPES.ProbeServerDriver);
-const _morganMiddleware = container.get<MorganMiddleware>(TYPES.MorganMiddleware);
-
-new ServerBoot(_loggerConfig, /* _etcdConfig, */ _dbDriver, _probeServer, _morganMiddleware).listen();
+if (process.env.NODE_ENV !== 'test') {
+	const _loggerConfig = container.get<LoggerDriver>(TYPES.LoggerDriver);
+	const _dbDriver = container.get<DbDriver>(TYPES.DbDriver);
+	// const _etcdConfig = container.get<EtcdDriver>(TYPES.ETCDDriver);
+	const _probeServer = container.get<ProbeServer>(TYPES.ProbeServerDriver);
+	const _morganMiddleware = container.get<MorganMiddleware>(TYPES.MorganMiddleware);
+	
+	new ServerBoot(_loggerConfig, /* _etcdConfig, */ _dbDriver, _probeServer, _morganMiddleware).listen();
+}
