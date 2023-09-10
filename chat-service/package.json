@@ -2,7 +2,7 @@
   "name": "chat-service",
   "templateVersion": "3.0.0",
   "version": "0.0.1",
-  "description": "Extreamly minimal node js server (express, ts, jest, db, swagger)",
+  "description": "The service responsible for managing the actual chat",
   "main": "dist/server.js",
   "scripts": {
     "prebuild": "eslint --fix",
@@ -20,7 +20,7 @@
   },
   "dependencies": {
     "@godaddy/terminus": "^4.9.0",
-    "@oas-tools/core": "^3.0.2",
+    "@oas-tools/core": "^3.1.0",
     "dotenv": "8.2.0",
     "elastic-apm-node": "^3.33.0",
     "etcd3": "^1.1.0",

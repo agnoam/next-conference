@@ -793,13 +793,13 @@
     js-yaml "^4.1.0"
     winston "^3.7.2"
 
-"@oas-tools/core@^3.0.2":
-  version "3.0.3"
-  resolved "https://registry.yarnpkg.com/@oas-tools/core/-/core-3.0.3.tgz#e4174cb41208c70952e1d79b587df0d3b5adab86"
-  integrity sha512-hkQXkqxOrGeNPQXisrh5AoxotuKJUcdaV1SG80e8B4hJ1Gpth1M3DSWvr4kqt9q8K1n6y6QNa66pV8AvvcPvYg==
+"@oas-tools/core@^3.1.0":
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/@oas-tools/core/-/core-3.1.0.tgz#86585ebe38203c7c0a46eefade156a90f132db23"
+  integrity sha512-Z12Zkus984+lshT1RaTf/LKO7ULILLBYILMezzp6Bfr7nrSOn+vxVU/hmMEug0cmq6AyNcfcpKrgD/1SvouLUw==
   dependencies:
     "@oas-tools/commons" "^1.0.0"
-    js-yaml "^3.13.1"
+    js-yaml "^4.1.0"
     json-schema-ref-parser "^9.0.9"
     lodash "^4.17.21"
     rc "^1.2.8"
