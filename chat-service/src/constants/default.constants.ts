@@ -12,5 +12,5 @@ export enum ResponseStatus {
 }
 
 export enum CollectionsNames {
-    Users = 'users'
+    Channels = 'channels'
 }

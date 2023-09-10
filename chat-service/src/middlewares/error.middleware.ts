@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 
-import { ResponseStatus } from "../utils/consts";
+import { ResponseStatus } from "../constants/default.constants";
 
 const ErrorMiddleware = (err: Error, req: Request, res: Response, next: NextFunction) => {
     err ? 

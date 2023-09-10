@@ -4,7 +4,7 @@ import { Logger } from 'winston';
 import { inject, injectable } from 'inversify';
 import { createTerminus, TerminusOptions } from '@godaddy/terminus';
 
-import { ResponseStatus } from '../utils/consts';
+import { ResponseStatus } from '../constants/default.constants';
 import { LoggerDriver } from './logger.driver';
 import { TYPES } from '../configs/di.types.config';
 
