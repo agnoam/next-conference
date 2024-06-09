@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useParams } from "next/navigation";
+import { Socket, io } from "socket.io-client";
 
 import FeedViewer from "./componenets/FeedViewer";
 import ChatContainer from "./componenets/ChatContainer";
@@ -23,6 +24,7 @@ interface ChannelsMap {
 
 /* 
     Explantion for WebRTC protocol:
+    1. Create a socket connection with signaling server
     1. Create a `RTCPeerConnection`
     2. Create `RTCDataChannel` for each type of message (audio, video, screenshare, etc.)
     3. Create RTC Offer
@@ -33,6 +35,7 @@ export default function MeetingPage() {
     const params = useParams();
     const videoRef = useRef<HTMLVideoElement>(null);
 
+    const [socket, setSocket] = useState<Socket>();
     const [peerConnection, setPeerConnection] = useState<RTCPeerConnection>();
     const [connectionString, setConnectionString] = useState<string>();
     const [currentAnswer, setCurrentAnswer] = useState<string>();
@@ -140,6 +143,18 @@ export default function MeetingPage() {
             }
         }
 
+        const _socket = io(process.env.NEXT_PUBLIC_SIGNALING_SERVER_URL as string).connect();
+        _socket?.on('connect', () => {
+            _socket?.emit('join-meeting', { meetingID: params?.id as string })
+        })
+        
+        _socket?.on('new-user', (data) => {
+            // TODO: Create a new WebRTC offer
+            // TODO: Send it to the new client through the server
+            console.log('new-user event received', data);
+        })
+
+        setSocket(_socket);
         setPeerConnection(_peerConnection);
     }, [])
 

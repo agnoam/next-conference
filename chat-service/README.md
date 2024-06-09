@@ -1,5 +1,4 @@
-# chat-service
-This service is used to: 
+This is the signaling server. It use to cooardinate between all users. <br/>
+This is an explanation of the flow. (simplified)
 
-1. Managing "channels" - (CRUD)
-2. Sending messages in those channels
+![Signaling Flow](.docs/signaling-explanation.png)
